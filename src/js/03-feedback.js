@@ -1,4 +1,3 @@
-
 import throttle from "lodash.throttle";
 
 const STORAGE_KEY = `feedback-form-state`;
@@ -6,7 +5,7 @@ let formData = {};
 const refs = {
     form: document.querySelector(`.feedback-form`),
     textarea: document.querySelector(`.feedback-form, textarea`),
-};
+}
 
 refs.form.addEventListener('submit', onFormSubmit);
 refs.textarea.addEventListener('input', throttle(onTextareaInput, 500));
@@ -33,8 +32,11 @@ function onTextareaInput(evt) {
 function popTextarea(evt) {
     const saveMsg = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
-    if (saveMsg) {
+    for (const key in saveMsg) {
+        if (key) {
         console.log(saveMsg);
-        refs.textarea.value = saveMsg;
+            refs.form[key].value = saveMsg[key];
+            formData = saveMsg;
+        }
     }
 }
